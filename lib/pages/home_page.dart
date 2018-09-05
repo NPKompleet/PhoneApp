@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phone_app/pages/contacts_page.dart';
-import 'package:phone_app/pages/dial_number_page.dart';
+import 'package:phone_app/pages/incoming_call_page.dart';
 import 'package:phone_app/pages/recents_page.dart';
 import 'package:phone_app/pages/search_contact_page.dart';
 import 'package:phone_app/pages/speed_dial_page.dart';
@@ -16,19 +16,24 @@ class MyHomePage extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Theme.of(context).accentColor),
-              borderRadius: BorderRadius.circular(40.0),
-            ),
-            child: TextField(
-              decoration: InputDecoration(
-                icon: IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () => _openSearchContactPage(context)),
-                hintText: 'Type a name or phone number',
-                hintStyle: TextStyle(fontSize: 12.0),
-                border: InputBorder.none,
+          title: GestureDetector(
+            onTap: () => _openSearchContactPage(context),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Theme.of(context).accentColor),
+                borderRadius: BorderRadius.circular(40.0),
+              ),
+              child: IgnorePointer(
+                child: TextField(
+                  decoration: InputDecoration(
+                    icon: IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: (){},),
+                    hintText: 'Type a name or phone number',
+                    hintStyle: TextStyle(fontSize: 12.0),
+                    border: InputBorder.none,
+                  ),
+                ),
               ),
             ),
           ),
@@ -58,19 +63,19 @@ class MyHomePage extends StatelessWidget {
                   Tab(
                     icon: Icon(
                       Icons.dialer_sip,
-                      color: Colors.lightBlue,
+//                      color: Theme.of(context).cardColor,
                     ),
                   ),
                   Tab(
                     icon: Icon(
                       Icons.recent_actors,
-                      color: Colors.green,
+//                      color: Theme.of(context).cardColor,
                     ),
                   ),
                   Tab(
                     icon: Icon(
                       Icons.contacts,
-                      color: Colors.yellow,
+//                      color: Theme.of(context).cardColor,
                     ),
                   ),
                 ],
@@ -103,14 +108,6 @@ class MyHomePage extends StatelessWidget {
             )
           ],
         ),
-//        floatingActionButton: Align(
-//          alignment: Alignment.bottomCenter,
-//          child: FloatingActionButton(
-//            onPressed: () {},
-//            tooltip: 'Increment',
-//            child: Icon(Icons.dialpad),
-//          ),
-//        ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
@@ -125,7 +122,7 @@ class MyHomePage extends StatelessWidget {
   void _openDialNumberPage(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => DialNumberPage()),
+      MaterialPageRoute(builder: (context) => IncomingCallPage()),
     );
   }
 }

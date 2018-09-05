@@ -44,83 +44,100 @@ class _DialNumberPageState extends State<DialNumberPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IconButton(
-        icon: Icon(Icons.call),
-        onPressed: () => _showBottomSheet(),
+      body: Stack(
+        children: [
+          Container(
+            color: Colors.black87,
+          ),
+          _buildKeypad(),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: FloatingActionButton(
+                onPressed: () {},
+                tooltip: 'Call Number',
+                child: Icon(Icons.call),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  void _showBottomSheet() {
-    showModalBottomSheet(
-        context: context,
-        builder: (builder) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ListTile(
-                title: TextField(
+  Widget _buildKeypad() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        color: Theme.of(context).backgroundColor,
+        height: 450.0,
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              title: IgnorePointer(
+                child: TextField(
+                  style: TextStyle(fontSize: 40.0),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                   ),
                 ),
-                trailing:
-                    IconButton(icon: Icon(Icons.cancel), onPressed: () {}),
               ),
-              Divider(
-                height: 5.0,
-              ),
-              Container(
-                height: 90.0,
-                padding: EdgeInsets.all(8.0),
-                child: GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    childAspectRatio: 1.0,
-                    crossAxisSpacing: double.minPositive,
-                  ),
-                  children: _buildDialKeys(context),
-                  shrinkWrap: true,
+              trailing: IconButton(icon: Icon(Icons.cancel), onPressed: () {}),
+            ),
+            Divider(
+              height: 5.0,
+            ),
+            Container(
+              height: 300.0,
+              width: 220.0,
+              padding: EdgeInsets.all(8.0),
+              child: GridView(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 15.0,
+                  mainAxisSpacing: 5.0,
+                  childAspectRatio: 1.0,
                 ),
+                children: _buildDialKeys(),
+                shrinkWrap: true,
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: FloatingActionButton(
-                    onPressed: () {},
-                    tooltip: 'Call Number',
-                    child: Icon(Icons.call),
-                  ),
-                ),
-              ),
-            ],
-          );
-        });
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  List<Widget> _buildDialKeys(BuildContext context) {
+  List<Widget> _buildDialKeys() {
     var keys = <Widget>[];
     for (int i = 0; i < numbers.length; i++) {
       keys.add(
         Container(
-          width: 30.0,
-          height: 30.0,
+//          width: 30.0,
+//          height: 30.0,
           decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(color: Theme.of(context).accentColor)),
           child: GestureDetector(
             onTap: () {},
             onLongPress: () {},
-            child: ListTile(
-              title: Text(
-                numbers.elementAt(i),
-              ),
-              subtitle: i == 0
-                  ? Icon(Icons.voicemail)
-                  : Text(
-                      letters.elementAt(i),
-                    ),
+            child: Column(
+              children: [
+                Text(
+                  numbers.elementAt(i),
+                  style: TextStyle(fontSize: 30.0),
+                ),
+                i == 0
+                    ? Icon(
+                        Icons.voicemail,
+                        size: 8.0,
+                      )
+                    : Text(letters.elementAt(i),
+                        style: TextStyle(fontSize: 8.0)),
+              ],
             ),
           ),
         ),
